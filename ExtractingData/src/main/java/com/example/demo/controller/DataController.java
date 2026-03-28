@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +17,7 @@ public class DataController {
 	DataService service;
 	
 	@Autowired
-	private KafkaTemplate<String,String> kafkaTemplate;
+	private RabbitTemplate rabbitTemplate;
 	
 	
 	
@@ -29,7 +29,7 @@ public class DataController {
 		for(String individualRecord : fileData){
 			
 			System.out.println(individualRecord);
-			kafkaTemplate.send("source_topic", individualRecord);
+			rabbitTemplate.convertAndSend("source_topic", individualRecord);
 			
 	}
 		
