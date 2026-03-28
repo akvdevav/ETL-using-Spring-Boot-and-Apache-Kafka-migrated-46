@@ -1,7 +1,7 @@
 package com.example.demo.configuration;
 
-import org.springframework.amqp.rabbit.listener.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.DirectRabbitListenerContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaConsumerConfig {
 
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+    public DirectRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        DirectRabbitListenerContainerFactory factory = new DirectRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         return factory;
     }
