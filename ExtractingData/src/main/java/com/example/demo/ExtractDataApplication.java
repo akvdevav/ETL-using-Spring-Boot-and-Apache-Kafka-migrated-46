@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.zaxxer.hikari.HikariDataSource;
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
