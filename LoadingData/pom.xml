@@ -28,7 +28,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- JPA / JDBC starter (includes HikariCP) -->
+        <!-- JPA starter (includes HikariCP) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -79,7 +79,7 @@
             </exclusions>
         </dependency>
 
-        <!-- Kafka test dependency (only for test scope, retained) -->
+        <!-- Kafka test dependency (only for test scope) -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
@@ -89,10 +89,13 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
+            <!-- Spring Boot Maven Plugin with server port override to avoid conflicts -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dserver.port=0</jvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @EnableRabbit
@@ -15,7 +17,12 @@ import javax.sql.DataSource;
 public class ExtractDataApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ExtractDataApplication.class, args);
+        SpringApplication app = new SpringApplication(ExtractDataApplication.class);
+        // Use a random port to avoid clashes when multiple modules run concurrently
+        Map<String, Object> defaults = new HashMap<>();
+        defaults.put("server.port", "0");
+        app.setDefaultProperties(defaults);
+        app.run(args);
     }
 
     @Bean
