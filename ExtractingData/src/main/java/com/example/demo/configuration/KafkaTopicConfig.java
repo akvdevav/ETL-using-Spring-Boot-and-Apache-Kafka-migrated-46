@@ -14,8 +14,15 @@ public class KafkaTopicConfig {
         return new RabbitAdmin(connectionFactory);
     }
 
+    // Queue used for publishing original records
     @Bean
     public Queue sourceQueue() {
-        return new Queue("source_topic", true);
+        return new Queue("source_queue", true);
+    }
+
+    // Queue used for publishing transformed results
+    @Bean
+    public Queue targetQueue() {
+        return new Queue("target_queue", true);
     }
 }

@@ -1,18 +1,22 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import com.example.demo.service.LoadingService;
 
-@Controller
+@Component
 public class LoadingController {
 
-    @Autowired
-    private LoadingService service;
+    private final LoadingService service;
 
-    @RabbitListener(queuesToDeclare = @Queue(name = "target_topic"))
+    @Autowired
+    public LoadingController(LoadingService service) {
+        this.service = service;
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue(name = "target_queue"))
     public void listen(String message) {
         System.out.println(message);
         service.loadDataToDB(message);

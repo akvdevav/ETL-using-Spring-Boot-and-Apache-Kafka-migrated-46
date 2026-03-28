@@ -1,14 +1,17 @@
 package com.kafka.transform;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableRabbit
@@ -49,9 +52,19 @@ public class TransformingData {
         rabbitTemplate.convertAndSend("target_queue", result);
     }
 
-    // Ensure RabbitTemplate bean is available (auto-configured by Spring Boot, but defined explicitly for clarity)
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
+    }
+
+    // Provide a DataSource bean for PostgreSQL to satisfy auto‑configuration
+    @Bean
+    public DataSource dataSource() {
+        HikariDataSource ds = new HikariDataSource();
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        ds.setUsername("postgres");
+        ds.setPassword("postgres");
+        return ds;
     }
 }
